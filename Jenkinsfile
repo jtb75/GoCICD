@@ -9,7 +9,7 @@ node {
             echo 'Building..'
             sh """
             chmod 777 /var/run/docker.sock
-            docker build -t webapps/GoCICD:$BUILD_NUMBER .
+            docker build -t webapps/gocicd:$BUILD_NUMBER .
             """
         }
     }
@@ -20,7 +20,7 @@ node {
                     cert: '',
                     dockerAddress: 'unix:///var/run/docker.sock',
                     ignoreImageBuildTime: true,
-                    image: 'webapps/GoCICD:$BUILD_NUMBER',
+                    image: 'webapps/gocicd:$BUILD_NUMBER',
                     key: '',
                     logLevel: 'info',
                     podmanPath: '',
@@ -38,11 +38,11 @@ node {
             container('build') {
                 echo 'Pushing..'
                 sh """
-                docker tag webapps/GoCICD:$BUILD_NUMBER 192.168.1.211:80/webapps/GoCICD:$BUILD_NUMBER
-                docker tag webapps/GoCICD:$BUILD_NUMBER 192.168.1.211:80/webapps/GoCICD:latest
+                docker tag webapps/gocicd:$BUILD_NUMBER 192.168.1.211:80/webapps/gocicd:$BUILD_NUMBER
+                docker tag webapps/gocicd:$BUILD_NUMBER 192.168.1.211:80/webapps/gocicd:latest
                 docker login --username ${HARBOR_USER} --password ${HARBOR_PW} 192.168.1.211:80
-                docker push 192.168.1.211:80/webapps/GoCICD:$BUILD_NUMBER
-                docker push 192.168.1.211:80/webapps/GoCICD:latest
+                docker push 192.168.1.211:80/webapps/gocicd:$BUILD_NUMBER
+                docker push 192.168.1.211:80/webapps/gocicd:latest
                 """
             }
         }
@@ -52,9 +52,9 @@ node {
             container('build') {
             echo 'Pushing..'
             sh """
-            docker rmi 192.168.1.211:80/webapps/GoCICD:latest
-            docker rmi 192.168.1.211:80/webapps/GoCICD:$BUILD_NUMBER
-            docker rmi webapps/GoCICD:$BUILD_NUMBER
+            docker rmi 192.168.1.211:80/webapps/gocicd:latest
+            docker rmi 192.168.1.211:80/webapps/gocicd:$BUILD_NUMBER
+            docker rmi webapps/gocicd:$BUILD_NUMBER
             """
         }
     }
