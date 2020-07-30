@@ -38,7 +38,6 @@ node {
             container('build') {
                 echo 'Pushing..'
                 sh """
-                sleep 1800
                 docker tag webapps/gocicd:$BUILD_NUMBER 192.168.1.211:80/webapps/gocicd:$BUILD_NUMBER
                 docker tag webapps/gocicd:$BUILD_NUMBER 192.168.1.211:80/webapps/gocicd:latest
                 docker login --username ${HARBOR_USER} --password ${HARBOR_PW} 192.168.1.211:80
